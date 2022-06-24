@@ -1,5 +1,6 @@
 // @Author shovenyuan
 // @Date: 2022/6/20 11:49
+// 二叉树的一些题目
 
 // Package main ...
 package main
@@ -166,4 +167,43 @@ func (this *Codec) deserialize(data string) *TreeNode {
 		}
 	}
 	return build()
+}
+
+// 450. 删除二叉搜索树中的节点 https://leetcode.cn/problems/delete-node-in-a-bst/
+func deleteNode(root *TreeNode, key int) *TreeNode {
+	if root == nil {
+		return nil
+	}
+
+	// 如果key大于val，则去右子树删除
+	if key > root.Val {
+		root.Right = deleteNode(root.Right, key)
+	}
+	// 如果key小于val，则去左子树删除
+	if key < root.Val {
+		root.Left = deleteNode(root.Left, key)
+	}
+
+	// 	如果key等于val，则需要判断左右子树情况
+	if root.Val == key {
+		// 左子树为空，直接返回右子树
+		if root.Left == nil {
+			return root.Right
+		}
+		// 右子树为空，直接返回左子树
+		if root.Right == nil {
+			return root.Left
+		}
+
+		// 左右子树都有值，将左子树移给最右子树左下角节点，右子树top节点成为根节点，从而实现节点的删除
+		tmpNode := root.Right
+		// 寻找最左节点
+		for tmpNode.Left != nil {
+			tmpNode = tmpNode.Left
+		}
+		tmpNode.Left = root.Left
+		root = root.Right
+	}
+
+	return root
 }
