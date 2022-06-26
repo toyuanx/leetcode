@@ -27,3 +27,16 @@ func singleNumberV2(nums []int) int {
 	}
 	return nums[len(nums)-1]
 }
+
+func removeDuplicates(s string) string {
+	stack := []byte{}
+	for i := 0; i < len(s); i++ {
+		// 判断是否在栈顶
+		if len(stack) != 0 && s[i] == stack[len(stack)-1] {
+			stack = stack[:len(stack)-1]
+		} else {
+			stack = append(stack, s[i])
+		}
+	}
+	return string(stack)
+}
