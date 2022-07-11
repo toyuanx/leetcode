@@ -100,3 +100,8 @@ func threeSum(nums []int) (ans [][]int) {
 	}
 	return ans
 }
+
+func findUnsortedSubarray(nums []int) int {
+
+	return 0
+}

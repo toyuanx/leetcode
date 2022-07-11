@@ -207,3 +207,44 @@ func deleteNode(root *TreeNode, key int) *TreeNode {
 
 	return root
 }
+
+func isSymmetric(root *TreeNode) bool {
+	// 左右同时遍历比较
+	var helper func(*TreeNode, *TreeNode) bool
+	helper = func(n1 *TreeNode, n2 *TreeNode) bool {
+		if n1 == nil && n2 == nil {
+			return true
+		}
+		if n1 == nil || n2 == nil {
+			return false
+		}
+		if n1.Val != n2.Val {
+			return false
+		}
+		return helper(n1.Left, n2.Right) == helper(n1.Right, n2.Left)
+	}
+	return helper(root, root)
+}
+
+func (this *Codec) deserialize(data string) *TreeNode {
+	if data == "null" {
+		return nil
+	}
+	nodeList := strings.Split(data, ",")
+	index := [1]int{0} // 数组指针传递
+
+	var dfs = func(nodeList []string, index [1]int) *TreeNode { return nil }
+	dfs = func(nodeList []string, index [1]int) *TreeNode {
+		nodeValStr := nodeList[index[0]]
+		index[0]++
+		if nodeValStr == "null" {
+			return nil
+		}
+		nodeVal, _ := strconv.Atoi(nodeValStr)
+		node := &TreeNode{Val: nodeVal}
+		node.Left = dfs(nodeList, index)
+		node.Right = dfs(nodeList, index)
+		return node
+	}
+	return dfs(nodeList, index)
+}
