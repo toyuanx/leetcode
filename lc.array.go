@@ -14,6 +14,29 @@ func main() {
 	fmt.Println(threeSum([]int{-2, -3, 0, 0, -2}))
 }
 
+func longestConsecutive(nums []int) int {
+	var maxLen int
+	// 先定义hash表，key为nums中的数字，顺带去重
+	var hash = make(map[int]bool)
+	for _, v := range nums {
+		hash[v] = true
+	}
+	fmt.Println(hash[100], hash[7])
+	// 循环hash表，找到起始位置x: x的判断条件是判断x-1存不存在
+	for k := range hash {
+		if _, ok := hash[k-1]; !ok {
+			end := k
+			for hash[end+1] {
+				end++
+			}
+			if end-k+1 > maxLen {
+				maxLen = end - k + 1
+			}
+		}
+	}
+	return maxLen
+}
+
 // 暴力法
 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 	nums1 = append(nums1, nums2...)
@@ -104,4 +127,16 @@ func threeSum(nums []int) (ans [][]int) {
 func findUnsortedSubarray(nums []int) int {
 
 	return 0
+}
+
+func rotate(matrix [][]int) {
+	// 辅助矩阵
+	var tmp [][]int
+	var n = len(matrix)
+	for i := 0; i < n; i++ {
+		for j := 0; j < n; j++ {
+			tmp[i][j] = matrix[j][n-i-1]
+		}
+	}
+	copy(matrix, tmp)
 }
